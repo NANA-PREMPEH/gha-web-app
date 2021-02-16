@@ -5,7 +5,8 @@
         <div class="col-md-8"  style="margin-top: 2px;">
             <div class="modal_th" style="height: 570px;">
                 <div class="media" style="margin-left: 20%; font-family: 'Montserrat', sans-serif;">
-                    <img class="rounded-circle" style="border-radius: 50%; width: 150px; float: left; height: 150px;" src="{{ image_file }}">
+                    <img class="rounded-circle" style="border-radius: 50%; width: 150px; float: left; height: 150px;" 
+                            src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}">
                     <div style="margin-top: 5%; margin-left: 30%;">
                         <h2 class="account-heading">{{ current_user.username }}</h2> 
                         <p class="text-secondary">{{ current_user.email }}</p>

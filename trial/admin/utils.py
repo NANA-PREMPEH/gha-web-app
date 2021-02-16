@@ -1,6 +1,7 @@
 import os
 from flask import current_app
 import secrets
+import boto3
 
 
 #Takes picture data as an argument
@@ -14,5 +15,7 @@ def save_photo(photo):
     photo_path = os.path.join(current_app.root_path, 'static/blog_images', photo_name)
 
     photo.save(photo_path)
+    s3 = boto3.resource('s3', region_name='us-east-1')
+    s3.Bucket('santa-gha').upload_file(photo_path, 'static/blog_images/'+photo_name, ExtraArgs={'ACL':'public-read'})
 
     return photo_name 

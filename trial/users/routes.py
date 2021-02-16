@@ -5,7 +5,7 @@ from trial import db, bcrypt
 from trial.users.forms import RequestResetForm, ResetPasswordForm, LoginForm, UpdateAccountForm
 from trial.users.utils import send_reset_email, save_picture
 from trial.models import User, Post
-
+import boto3
 users = Blueprint('users', __name__) 
 
 
@@ -38,7 +38,7 @@ def login():
 @login_required
 def account():
     form = UpdateAccountForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit(): 
         #Check if there is a picture data
         if form.picture.data:
             #Set the user profile picture 
@@ -54,6 +54,7 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+   
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     posts = Post.query.order_by(Post.id.desc()).all()
     return render_template('users/account.html', title='Account', form=form, image_file=image_file, posts=posts)
@@ -85,7 +86,7 @@ def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     user = User.verify_reset_token(token) 
-    if user is None:
+    if user is None: 
         flash('Token is invalid or expired', 'warning')
         return redirect(url_for('users.reset_request'))
     form = ResetPasswordForm()

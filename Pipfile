@@ -84,6 +84,9 @@ Werkzeug = "==0.16.0"
 WTForms = "==2.3.1"
 psycopg2 = "*"
 flask-uploads = "*"
+boto3 = "*"
+awscli = "*"
+flask-s3 = "*"
 
 [dev-packages]
 

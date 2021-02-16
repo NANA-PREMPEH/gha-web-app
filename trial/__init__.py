@@ -3,14 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_s3 import FlaskS3
 from elasticsearch import Elasticsearch
 from flask_mail import Mail
 from trial.config import Config
-from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_class
-
-
-
-
 
 
 #Create a database Instance 
@@ -18,12 +14,12 @@ mail = Mail()
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 migrate = Migrate()
-login_manager = LoginManager() 
+login_manager = LoginManager()
+s3 = FlaskS3() 
 
 login_manager.login_view = 'users.login' 
 login_manager.login_message_category = 'info' 
 
-photos = UploadSet('photos', IMAGES)
 
 
 
@@ -39,11 +35,10 @@ def create_app(config_class=Config):
     mail.init_app(app)
     db.init_app(app)
     bcrypt.init_app(app)
+    s3.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
-    photos = UploadSet('photos', IMAGES)
-    configure_uploads(app, photos)
-    patch_request_class(app, None)
+    
     
 
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \

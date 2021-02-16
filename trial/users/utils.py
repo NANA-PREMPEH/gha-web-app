@@ -7,6 +7,13 @@ from trial import mail
 from flask_mail import Message
 from flask_login import current_user
 from trial.models import Permission
+import boto3
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+#ACL = 'public-read'
+FLASKS3_BUCKET_NAME = os.environ.get('FLASKS3_BUCKET_NAME')
+FLASKS3_REGION = 'us-east-1'
 
 #define a save picture function
 #Takes picture data as an argument
@@ -15,7 +22,7 @@ def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     #Grab the file extension
     _, f_ext = os.path.splitext(form_picture.filename)      #Use of underscore to discard the filename 
-    #Combine the random_hex eith the file extension to get the new filename of image
+    #Combine the random_hex with the file extension to get the new filename of image
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_fn) 
 
@@ -26,8 +33,11 @@ def save_picture(form_picture):
     i.thumbnail(output_size)
     i.save(picture_path)
 
-    return picture_fn
+    s3 = boto3.resource('s3', region_name='us-east-1')
+    s3.Bucket('santa-gha').upload_file(picture_path, 'static/profile_pics/'+picture_fn, ExtraArgs={'ACL':'public-read'})
 
+    return picture_fn
+ 
 #Function to send reset email
 def send_reset_email(user):
     token = user.get_reset_token()

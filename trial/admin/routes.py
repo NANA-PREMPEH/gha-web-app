@@ -8,7 +8,7 @@ from trial.admin.forms import RegistrationForm, BlogPostForm, ContractDetailsFor
 from trial.admin.utils import save_photo
 import re
 import requests
-from trial import db, bcrypt, photos 
+from trial import db, bcrypt
 from trial.users.utils import admin_required
 
 
@@ -48,8 +48,8 @@ def create_blog():
     form = BlogPostForm()
     if form.validate_on_submit():
         title = form.title.data
-        content = form.blog_content.data
-        picture = photos.save(form.picture.data, name=secrets.token_hex(16) + ".") 
+        content = form.blog_content.data  
+        picture = save_photo(form.picture.data)  
 
         #Upload post into the database
         post = Post(title=title, body=content, image=picture, author=current_user)
