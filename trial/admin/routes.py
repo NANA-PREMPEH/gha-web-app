@@ -65,7 +65,7 @@ def create_blog():
 @admin_required
 def add_contract():
 
-    form = ContractDetailsForm()
+    form = ContractDetailsForm() 
 
     if form.validate_on_submit():
     

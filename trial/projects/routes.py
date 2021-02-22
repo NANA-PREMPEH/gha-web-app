@@ -96,7 +96,7 @@ def road_cond():
 @projects.route('/road_cond_2K19')
 def road_cond_2K19():
     update_rd_cond2K19(road_data_2K19)
-    return redirect(url_for('main.home'))
+    return redirect(url_for('main.home')) 
 
 
 @projects.route('/completed/periodic/rehabilitation', methods=['GET', 'POST'])
@@ -292,6 +292,12 @@ def view_contract(contract_id):
 
     posts = Post.query.order_by(Post.id.desc()).all()
     return render_template('projects/video.html', contract=contract, contract_id=contract_id, posts=posts)
+
+@projects.route('/projects/critical_roads')
+def critical_roads():
+    posts = Post.query.order_by(Post.id.desc()).all()
+
+    return render_template('projects/critical_roads.html', posts=posts)
 
 #View Regravelling Projects details from the database
 @projects.route('/regrav/view/<int:contract_id>/details') 

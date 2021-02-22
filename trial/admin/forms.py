@@ -32,7 +32,7 @@ class RegistrationForm(FlaskForm):
 class BlogPostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     blog_content = TextAreaField('Content', validators=[DataRequired()])
-    picture = FileField('Upload Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    picture = FileField('Upload Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'])]) 
     submit = SubmitField('Post')
 
 class ContractDetailsForm(FlaskForm):

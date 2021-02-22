@@ -50,10 +50,11 @@
             </table>
             {% else %}
                 <div class="alert alert-warning" role="alert">
-                    You don't have uploaded any video! &nbsp; &nbsp;
-                    <button class="btn btn-info" data-toggle="modal" data-target="#modalupload" data-backdrop="static" data-keyboard="false">
+                    There are no uploaded contracts! &nbsp; &nbsp;
+                    <a class="btn btn-info" href="{{ url_for('admin.add_contract') }}"><i class="fa fa-upload"></i>Upload</a>
+                    <!--<button class="btn btn-info" data-toggle="modal" data-target="#modalupload" data-backdrop="static" data-keyboard="false">
                         <i class="fa fa-upload" aria-hidden="true"></i>&nbsp; &nbsp;Upload
-                    </button>
+                    </button>-->
                 </div>
             {% endif %}
         </div> 
